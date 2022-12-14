@@ -1,9 +1,11 @@
 import React, { useContext, useState } from "react";
+import { toast } from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import PrimaryButton from "../../component/Button/PrimaryButton";
-
+import { AuthContext } from "../Context/Context";
 
 const Login = () => {
+  const { LoginWithGoogle, loader, signIn } = useContext(AuthContext);
   const [userEmail, setUserEmail] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
@@ -12,10 +14,16 @@ const Login = () => {
     event.preventDefault();
     const email = event.target.email.value;
     const password = event.target.password.value;
+    return signIn(email, password);
   };
 
   const handelForgetPass = () => {};
-  const handelGoogleLogIn = () => {};
+  
+  const handelGoogleLogIn = () => {
+    return LoginWithGoogle()
+      .then((res) => toast.success("Login successfully"))
+      .catch((err) => toast.error(err.message));
+  };
   return (
     <div className="flex justify-center items-center pt-8">
       <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">
@@ -31,8 +39,7 @@ const Login = () => {
           action=""
           className="space-y-6 ng-untouched ng-pristine ng-valid"
         >
-        
-        {/*  */}
+          {/*  */}
           <div className="space-y-4">
             <div>
               <label htmlFor="email" className="block mb-2 text-sm">
