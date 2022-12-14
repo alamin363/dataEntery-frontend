@@ -45,6 +45,8 @@ const Context = ({ children }) => {
       };
     });
   }, []);
+  console.log(user?.email)
+  const name="alamin"
   const authInfo = {
     createUser,
     signIn,
@@ -55,6 +57,7 @@ const Context = ({ children }) => {
     LoginWithGoogle,
     DisplayMode,
     setDisplayMode,
+    name
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

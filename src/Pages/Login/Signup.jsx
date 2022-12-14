@@ -1,9 +1,39 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PrimaryButton from "../../component/Button/PrimaryButton";
+import Spinner from "../../component/Spinner/Spinner";
+import { AuthContext } from "../Context/Context";
 
 const Signup = () => {
+  const { loader, createUser, LoginWithGoogle } = useContext(AuthContext);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const navigate = useNavigate();
+
+  const onSubmit = (data) => {
+    createUser(data.email, data.password)
+      .then((res) => toast.success("User create successfully"))
+      .catch((err) => toast.error("user Signup failed"));
+  };
+  const handelGoogleLogin = () => {
+    LoginWithGoogle()
+      .then((res) => {
+        console.log(res);
+        navigate("/");
+        return toast.success("Login successfully");
+      })
+      .catch((err) => toast.error(err.message));
+  };
+  if (loader) {
+    return <Spinner />
+  }
   return (
     <div className="flex justify-center items-center pt-8">
       <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">
@@ -14,37 +44,20 @@ const Signup = () => {
         <form
           noValidate=""
           action=""
+          onSubmit={handleSubmit(onSubmit)}
           className="space-y-12 ng-untouched ng-pristine ng-valid"
         >
           <div className="space-y-4">
+      
+
             <div>
               <label htmlFor="email" className="block mb-2 text-sm">
-                Name
-              </label>
-              <input
-                type="text"
-                name="name"
-                id="name"
-                required
-                placeholder="Enter Your Name Here"
-                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-green-500 bg-gray-200 text-gray-900"
-                data-temp-mail-org="0"
-              />
-            </div>
-            <div>
-              <label htmlFor="image" className="block mb-2 text-sm">
-                Select Image:
-              </label>
-              <input type="file" id="image" name="image" accept="image/*" />
-            </div>
-            <div>
-              <label htmlFor="email" className="block mb-2 text-sm">
-                Email address
+                Email
               </label>
               <input
                 required
                 type="email"
-                name="email"
+                {...register("email")}
                 id="email"
                 placeholder="Enter Your Email Here"
                 className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-green-500 bg-gray-200 text-gray-900"
@@ -52,14 +65,14 @@ const Signup = () => {
               />
             </div>
             <div>
-              <div className="flex justify-between mb-2">
+              <div>
                 <label htmlFor="password" className="text-sm">
                   Password
                 </label>
               </div>
               <input
                 type="password"
-                name="password"
+                {...register("password")}
                 id="password"
                 required
                 placeholder="*******"
@@ -69,12 +82,14 @@ const Signup = () => {
           </div>
           <div className="space-y-2">
             <div>
-              <PrimaryButton
-                type="submit"
-                classes="w-full px-8 py-3 font-semibold rounded-md bg-gray-900 hover:bg-gray-700 hover:text-white text-gray-100"
-              >
-                Sign up
-              </PrimaryButton>
+
+                <PrimaryButton
+                  type="submit"
+                  classes="w-full px-8 py-3 font-semibold rounded-md bg-gray-900 hover:bg-gray-700 hover:text-white text-gray-100"
+                >
+                  Sign up
+                </PrimaryButton>
+
             </div>
           </div>
         </form>
@@ -87,6 +102,7 @@ const Signup = () => {
         </div>
         <div className="flex justify-center space-x-4">
           <button
+            onClick={handelGoogleLogin}
             aria-label="Log in with Google"
             className="p-3 rounded-sm"
           >

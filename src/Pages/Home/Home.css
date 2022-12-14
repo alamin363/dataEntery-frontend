@@ -1,4 +1,4 @@
-.contact{
+.contact {
   background-color: hsl(219, 48%, 8%);
 
   width: 100%;
@@ -55,8 +55,8 @@
   animation: contactFormBtn 1s ease-in-out forwards 1s;
 }
 .userDataForm > button:hover {
-  background-color: hsl(219, 48%, 8%);
-  color: white;
+  /* background-color: hsl(219, 48%, 8%); */
+  /* color: white; */
 }
 
 @keyframes contactTransition {

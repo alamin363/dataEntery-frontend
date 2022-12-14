@@ -2,10 +2,12 @@ import React, { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import PrimaryButton from "../../component/Button/PrimaryButton";
+import Spinner from "../../component/Spinner/Spinner";
 import { AuthContext } from "../Context/Context";
 
 const Login = () => {
   const { LoginWithGoogle, loader, signIn } = useContext(AuthContext);
+  // forget [password to use this ]
   const [userEmail, setUserEmail] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
@@ -18,12 +20,18 @@ const Login = () => {
   };
 
   const handelForgetPass = () => {};
-  
+
   const handelGoogleLogIn = () => {
-    return LoginWithGoogle()
-      .then((res) => toast.success("Login successfully"))
+    LoginWithGoogle()
+      .then((res) => {
+        navigate("/");
+        toast.success("Login successfully");
+      })
       .catch((err) => toast.error(err.message));
   };
+  if (loader) {
+    return <Spinner />
+  }
   return (
     <div className="flex justify-center items-center pt-8">
       <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">

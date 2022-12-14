@@ -1,0 +1,21 @@
+.animation {
+  height: 80%;
+  width: 70%;
+  background-color: white;
+  position: absolute;
+  border-radius: 100px 0 0 100px;
+  top: 60%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.473);
+  display: flex;
+  justify-content: center;
+  animation: contactTransition 1s linear forwards;
+}
+
+@keyframes contactTransition {
+  from {
+    transform: translateX(-100%) translateY(-50%);
+  }
+  to {
+    transform: translateX(20%) translateY(-50%);
+  }
+}
